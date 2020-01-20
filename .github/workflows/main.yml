@@ -1,0 +1,17 @@
+name: Demo CI/CD
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run a multi-line script
+      run: |
+        echo 'Building the project'
+        ./mvnw clean install
+        echo 'Done'
+        
