@@ -14,9 +14,18 @@ jobs:
         java-version: '11.0.x'
         java-package: jdk
         architecture: x64
-    - name: Run a multi-line script
+    - name: build
+      env: 
+        DOCKER_HUB: ${{ secrets.DOCKER_HUB}}
+        DOCKER_HUB_KEY: ${{ secrets.DOCKER_HUB_KEY}} 
       run: |
-        echo 'Building the project'
+        echo 'Building the project...'
         ./mvnw clean install
+        echo 'Login into Dockerhub...'
+        docker login -u $DOCKER_HUB -p $DOCKER_HUB_KEY
+        echo 'Running the build...'
+        docker build . -t fertorija/fertorija:demo-latest
+        echo 'Pushing image...'
+        docker push fertorija/fertorija:demo-latest
         echo 'Done'
         
